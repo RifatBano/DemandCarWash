@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cg.casestudy.carwash.dao.CustomerCarWashDao;
 import com.cg.casestudy.carwash.entity.Address;
-import com.cg.casestudy.carwash.entity.CustomerCarWashEntity;
+import com.cg.casestudy.carwash.entity.CustomerRegistrationDetails;
 import com.cg.casestudy.carwash.exception.CustomerCarWashException;
 
 
@@ -23,7 +23,17 @@ public class CustomerCarWashServiceImpl implements CustomerCarWashService{
 	}
 
 	@Override
-	public String login(CustomerCarWashEntity customerDetails) throws CustomerCarWashException {
+	public String registerCustomer(CustomerRegistrationDetails customer) throws CustomerCarWashException {
+		// TODO Auto-generated method stub
+		String result = customerCarWashDao.saveCustomer(customer);
+		if (result==null) {
+			throw new CustomerCarWashException("error");
+		}
+		return result;
+	}
+	
+	@Override
+	public String login(CustomerRegistrationDetails customerDetails) throws CustomerCarWashException {
 
 		String result = customerCarWashDao.findCustomer(customerDetails);
 		if (result==null) {
@@ -42,4 +52,6 @@ public class CustomerCarWashServiceImpl implements CustomerCarWashService{
 		}
 		return result;
 	}
+
+	
 }

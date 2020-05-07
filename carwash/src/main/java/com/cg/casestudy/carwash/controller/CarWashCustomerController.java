@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.casestudy.carwash.entity.Address;
-import com.cg.casestudy.carwash.entity.CustomerCarWashEntity;
+import com.cg.casestudy.carwash.entity.CustomerRegistrationDetails;
 import com.cg.casestudy.carwash.exception.CustomerCarWashException;
 import com.cg.casestudy.carwash.service.CustomerCarWashService;
 
@@ -26,13 +26,22 @@ public class CarWashCustomerController {
 	
 	String message=null;
 
-	//@PostMapping("/login")
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json", produces = "text/plain")
+    public String customerRegistration(@RequestBody CustomerRegistrationDetails customer) throws CustomerCarWashException
+	{
+		try {
+			message=customerCarWashService.registerCustomer(customer);
+		} catch (Exception e) {
+			throw new CustomerCarWashException("Error Occurred");
+		}
+		return message;
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "text/plain")
-	public String checkCustomerLogin(@RequestBody CustomerCarWashEntity customer) throws CustomerCarWashException {		
+	public String checkCustomerLogin(@RequestBody CustomerRegistrationDetails customer) throws CustomerCarWashException {		
 		//LOG.info("Getting all users");
 		System.out.println("hiiiiii");
-
+      
 	try {
 		LOG.info("stated login service");
 		message=customerCarWashService.login(customer);
@@ -42,7 +51,8 @@ public class CarWashCustomerController {
 	return message;
 }
 	
-	@PostMapping("/details")
+	//@PostMapping("/details")
+	@RequestMapping(value = "/details", method = RequestMethod.POST, consumes = "application/json", produces = "text/plain")
 	public String addDetails(@RequestBody Address address)throws CustomerCarWashException 
 	{
 		try {
@@ -53,6 +63,7 @@ public class CarWashCustomerController {
 		return message;
 		
 	}
+	
 	
 	
 }
